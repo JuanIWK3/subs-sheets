@@ -1,0 +1,26 @@
+services:
+  web:
+    build: ./web
+    command: bun dev --host
+    ports:
+      - 5173:5173
+    develop:
+      watch:
+        - path: web/package.json
+          action: rebuild
+        - path: web/bun.lockb
+          action: rebuild
+        - path: web/
+          target: /app
+          action: sync
+
+  api:
+    build: ./api
+    command: bun --watch index.ts
+    ports:
+      - 4000:4000
+    develop:
+      watch:
+        - path: api/
+          target: /app
+          action: sync
