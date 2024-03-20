@@ -1,12 +1,12 @@
-FROM oven/bun:1
+FROM oven/bun:1 as build
 
 WORKDIR /app
-
-# install dependencies
 COPY package.json bun.lockb ./
 RUN bun install
-
-# copy app source
 COPY . .
+RUN bun run build
 
-EXPOSE 5173
+FROM nginx:stable-alpine as production-stage
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

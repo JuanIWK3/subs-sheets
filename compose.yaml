@@ -1,0 +1,21 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - 3000:80
+    develop:
+      watch:
+        - path: web/
+          target: /app
+          action: rebuild
+
+  api:
+    build: ./api
+    command: bun --watch index.ts
+    ports:
+      - 4000:4000
+    develop:
+      watch:
+        - path: api/
+          target: /app
+          action: sync
