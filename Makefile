@@ -1,8 +1,5 @@
 compose:
-	docker compose watch
+	docker compose up --remove-orphans
 
 compose-dev:
 	docker compose -f compose-dev.yaml watch
-
-compose-old:
-	docker compose -f compose-old.yaml up --remove-orphans
